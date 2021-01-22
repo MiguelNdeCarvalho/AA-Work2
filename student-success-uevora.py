@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 #prep
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import KFold
 
 #models
 from sklearn.ensemble import GradientBoostingClassifier
@@ -56,9 +56,11 @@ df_test.insert(loc=31,column ='Failure',value=Failures)
 
 #data_treatment
 x_train,y_train = data_treatment('train.csv')
-#x_test,y_test = data_treatment('sub+test.csv')
+x_test,y_test = data_treatment('sub+test.csv')
 
 #split train to create pred data 
+
+
 x_train, x_pred, y_train, y_pred = train_test_split(x_train, y_train, random_state=1) #default test_size=25
 
 
