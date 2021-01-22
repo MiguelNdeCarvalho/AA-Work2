@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}   % tipo de documento e tamanho das letras
+
+% os seguintes pacotes estendem a funcionalidade básica:
+\usepackage[a4paper, total={16cm, 24cm}]{geometry} % tamanho da pagina e do texto
+\usepackage[portuguese]{babel}  % traduz para portugues
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}           % graficos
+\usepackage{amsmath}            % matematica
+\usepackage{tikz}               % diagramas
+    \usetikzlibrary{shadows}
+\usepackage{booktabs}           % tabelas com  melhor aspecto
+\usepackage[colorlinks=true]{hyperref}           % links para partes do documento ou para a web
+\usepackage{listings}           % incluir codigo
+    \renewcommand\lstlistingname{Listagem}  % Listing em portugues
+    \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, basicstyle=\footnotesize\ttfamily, frame=tb,rulesepcolor=\color{gray}, breaklines=true}
+\usepackage{blindtext}
+
+% -------------------------------------------------------------------------------------------
+\title
+{
+    \includegraphics[width=0.3\textwidth]{images/logo_universidade.png}
+    \\[0.1cm]
+    \textbf{Student Sucess} \\
+    Aprendizagem Automática
+}
+
+\author
+{
+    \textbf{Professores:} Teresa Gonçalves \\ Luís Rato \\
+    \textbf{Realizado por:} Miguel de Carvalho (43108) \\ João Pereira (42864) 
+}
+\date{\today}
+
+% -------------------------------------------------------------------------------------------
+%                                Body                                                       %
+% -------------------------------------------------------------------------------------------
+
+\begin{document}
+\maketitle
+
+% -------------------------------------------------------------------------------------------
+\section{Introdução} 
+
+
+% -------------------------------------------------------------------------------------------
+\section{Conclusão} % Conclusão
+\hspace{0,5cm}Em suma, com a realização deste trabalho "Gerador de Árvores de Decisão" ficámos muito mais esclarecido sobre como é
+feito o processo para gerar um \textbf{Árvore de Decisão}. \par
+Processo este que pode ser feito com diferentes \textbf{critérios} que vão influenciar o resultado final.
+
+As principais dificuldades foram o facto de o trabalho ter sido proposto com uma linguagem de programação no qual não nos
+sentíamos à vontade, o \textbf{Python}.
+Além disso foi assegurar que as funções \verb|update_data| e \verb|applySaves| cumprissem bem a sua funcionalidade, o que infelizmente não
+foi possível.
+% -------------------------------------------------------------------------------------------
+\end{document}
