@@ -4,8 +4,7 @@ import itertools
 import matplotlib.pyplot as plt
 
 #prep
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
+from sklearn.model_selection import cross_val_score
 
 #models
 from sklearn.ensemble import GradientBoostingClassifier
@@ -20,53 +19,73 @@ def data_treatment(file):
     data = pd.read_csv(file, header=0)
     #print(file)
     #print(data)
+    if(file=='train.csv'):
 
-    data.drop('Id',axis=1,inplace=True) 
-   
-    #obj_data = train_data.select_dtypes(include=['object']).copy()
-    #print(obj_train_data['Program'].value_counts())
-   
-    enconde = {"Program": {"Informatics": 0, "Nursing": 1, "Management": 2, "Biology": 3}}
-    data = data.replace(enconde)
-    #print(train_data.head())
+        data.drop('Id',axis=1,inplace=True) 
+    
+        #obj_data = train_data.select_dtypes(include=['object']).copy()
+        #print(obj_train_data['Program'].value_counts())
+    
+        enconde = {"Program": {"Informatics": 0, "Nursing": 1, "Management": 2, "Biology": 3}}
+        data = data.replace(enconde)
+        #print(train_data.head())
 
 
-    #split treino em x_train e y_train
-    y_data = data[['Failure']].copy()
-    #print(y_data)
+        #split treino em x_train e y_train
+        
+        y_data = data[['Failure']].copy()
+        #print(y_data)
 
-    data.drop('Failure',axis=1,inplace=True)
-    x_data = data.copy()
-    #print(x_data)
+        data.drop('Failure',axis=1,inplace=True)
+        x_data = data.copy()
+        #print(x_data)
 
-    return x_data,y_data
+        return x_data,y_data
+    
+    else:
+        
+        save = data['Id'].copy()
+        data.drop('Id',axis=1,inplace=True) 
+        enconde = {"Program": {"Informatics": 0, "Nursing": 1, "Management": 2, "Biology": 3}}
+        data = data.replace(enconde)
 
-def best_parameters():
-    return 0;
+        return data,save
+
 #----------------------------------main-------------------------------------#
-"""
-#merge sampleSubmission with test
-df_submission = pd.read_csv("sampleSubmission.csv", header=0)
-df_test = pd.read_csv("test.csv", header=0)
-
-Failures = df_submission["Failure"].copy()
-df_test.insert(loc=31,column ='Failure',value=Failures)
-#df_test.to_csv(r'sub+test.csv', index = False)
-"""
 
 #data_treatment
 x_train,y_train = data_treatment('train.csv')
-x_test,y_test = data_treatment('sub+test.csv')
+x_test,id_column = data_treatment('test.csv')
 
-#split train to create pred data 
+#clf = GradientBoostingClassifier(n_estimators=2000, max_depth=1)
+
+k=920
+min_estimators = 200
+max_estimators = 2000
+inc_estimators = int((max_estimators-min_estimators)/10)
+
+#print(inc_estimators)
+#for k in range(min_estimators,max_estimators+1,inc_estimators):
+
+print(k)
+clf = GradientBoostingClassifier(n_estimators=k,max_depth=1)
+scores = cross_val_score(clf, x_train, y_train.values.ravel(), cv=10, scoring='accuracy')
+print(scores.mean())
 
 
-x_train, x_pred, y_train, y_pred = train_test_split(x_train, y_train, random_state=1) #default test_size=25
 
-
-
-clf = GradientBoostingClassifier(n_estimators=2000, max_depth=1)
 clf.fit(x_train, y_train.values.ravel())
 
-final_score = clf.score(x_pred, y_pred) 
-print(f"final_score: {final_score*100}")
+result = clf.predict(x_test)
+result = pd.DataFrame(data=result)
+result.columns = ['Failure']
+result.insert(loc=0,column ='Id',value=id_column)
+
+result.to_csv(r'result.csv', index = False)
+
+
+
+#clf.fit(x_train, y_train.values.ravel())
+
+#final_score = clf.score(x_pred, y_pred) 
+#print(f"final_score: {final_score*100}")

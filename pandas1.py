@@ -61,8 +61,54 @@ def best_parameters():
 x_train,y_train = data_treatment('train.csv')
 x_test,id_column = data_treatment('test.csv')
 
-#clf = GradientBoostingClassifier(n_estimators=2000, max_depth=1)
+##############################################################################
 
+
+
+
+
+min_estimators = 200
+max_estimators = 2000
+inc_estimators = int((max_estimators-min_estimators)/10)
+n_estimators = range(min_estimators,max_estimators+1,inc_estimators)
+vali_results = []
+
+for estimator in n_estimators:
+    model = GradientBoostingClassifier(n_estimators=estimator)
+
+    scores = cross_val_score(model, x_train, y_train.values.ravel(), cv=5, scoring='accuracy')
+    print(f"estimator: {estimator},accuracy: {scores.mean()}")
+    vali_results.append(scores.mean())
+
+   
+
+
+from matplotlib.legend_handler import HandlerLine2D
+
+line1, = plt.plot(n_estimators, vali_results, 'b', label="Test AUC")
+plt.legend(handler_map={line1: HandlerLine2D(numpoints=2)})
+plt.ylabel("AUC score")
+plt.xlabel('n_estimators')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+#clf = GradientBoostingClassifier(n_estimators=2000, max_depth=1)
 k=920
 min_estimators = 200
 max_estimators = 2000
@@ -75,6 +121,29 @@ print(k)
 clf = GradientBoostingClassifier(n_estimators=k,max_depth=1)
 scores = cross_val_score(clf, x_train, y_train.values.ravel(), cv=10, scoring='accuracy')
 print(scores.mean())
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################
 
 clf.fit(x_train, y_train.values.ravel())
 
