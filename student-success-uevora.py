@@ -68,7 +68,7 @@ inc_estimators = int((max_estimators-min_estimators)/10)
 #for k in range(min_estimators,max_estimators+1,inc_estimators):
 
 print(k)
-clf = GradientBoostingClassifier(n_estimators=k,max_depth=1)
+clf = GradientBoostingClassifier(n_estimators=138, learning_rate=0.1, max_depth=8, min_samples_split=0.6, min_samples_leaf=7, max_features=4)
 scores = cross_val_score(clf, x_train, y_train.values.ravel(), cv=10, scoring='accuracy')
 print(scores.mean())
 
